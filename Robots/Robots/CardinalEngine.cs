@@ -2,6 +2,9 @@
 
 namespace Robots
 {
+    /// <summary>
+    /// Abstraction that keeps all the operations that are related with orientation of a robot - cardinal position.
+    /// </summary>
     public interface ICardinalEngine
     {
         Position Forward(Position position);
