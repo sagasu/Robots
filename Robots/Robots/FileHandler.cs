@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace RobotsTests
+namespace Robots
 {
     public class FileHandler
     {
-        public IEnumerable<string> GetAllLines(string filePath)
+        public IList<string> GetAllLines(string filePath)
         {
             return File.ReadAllLines(filePath);
         }

@@ -11,6 +11,12 @@
             Position = new Position(x: 0, y: 0);
         }
 
+        public Robot(Position position, ICardinalEngine cardinalEngine)
+        {
+            Position = position;
+            CardinalEngine = cardinalEngine;
+        }
+
         public Position GetForwardProjection()
         {
             return CardinalEngine.Forward(Position);
