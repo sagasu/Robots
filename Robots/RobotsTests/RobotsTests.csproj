@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="BoardTests.cs" />
     <Compile Include="RobotTests.cs" />
+    <Compile Include="SimulatorTests.cs" />
     <Compile Include="WestEngineTests.cs" />
     <Compile Include="EastEngineTests.cs" />
     <Compile Include="SouthEngineTests.cs" />
