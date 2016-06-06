@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BoardTests.cs" />
+    <Compile Include="FileHandlerTests.cs" />
     <Compile Include="RobotTests.cs" />
     <Compile Include="SimulatorTests.cs" />
     <Compile Include="WestEngineTests.cs" />
@@ -61,6 +62,10 @@
       <Project>{BB1FE910-E38C-42C4-9BF5-23F1BC4B90E6}</Project>
       <Name>Robots</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="customRobotCommands.txt" />
+    <Content Include="robotCommands.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
