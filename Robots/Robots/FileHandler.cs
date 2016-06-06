@@ -5,7 +5,7 @@ namespace RobotsTests
 {
     public class FileHandler
     {
-        public IEnumerable<string> GetAllLines(string filePath = "robotCommands.txt")
+        public IEnumerable<string> GetAllLines(string filePath)
         {
             return File.ReadAllLines(filePath);
         }
