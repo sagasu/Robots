@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="BoardTests.cs" />
     <Compile Include="FileHandlerTests.cs" />
+    <Compile Include="InputManagerTests.cs" />
     <Compile Include="RobotTests.cs" />
     <Compile Include="SimulatorTests.cs" />
     <Compile Include="WestEngineTests.cs" />
