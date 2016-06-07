@@ -40,16 +40,14 @@ namespace Robots
             return RobotStatus.Lost;
         }
 
-        public RobotStatus Left()
+        public void Left()
         {
             _robot.TurnLeft();
-            return RobotStatus.Alive;
         }
 
-        public RobotStatus Right()
+        public void Right()
         {
             _robot.TurnRight();
-            return RobotStatus.Alive;
         }
 
         public void SetRobot(Robot robot)

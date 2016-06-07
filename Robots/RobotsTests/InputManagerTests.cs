@@ -38,6 +38,47 @@ namespace RobotsTests
             Assert.AreEqual(expectedPosition, im.Report());
         }
 
+        [TestCase("1 50", "0 0 N", "R")]
+        [TestCase("3 3", "50 0 N", "R")]
+        [TestCase("4 55", "0 0 N", "R")]
+        public void Run_WhenCoordinatesLargerThen50_ThenApplicationStopsWorkingAndReturnsMinusOneExitCode(string firstLine, string secondLine, string thirdLine)
+        {
+            var im = new InputManager();
+            var commands = new List<string> { firstLine, secondLine, thirdLine };
+
+            var returnCode = im.Run(commands);
+
+            Assert.AreEqual(-1, returnCode);
+        }
+
+        [TestCase("5 5", "0 0 N", "RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR")]
+        [TestCase("20 20", "3 3 N", "RFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRFRF")]
+        [TestCase("20 20", "5 5 N", "LFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFFLFF")]
+        public void Run_WhenMoreThen100Commands_ThenApplicationStopsWorkingAndReturnsMinusOneExitCode(string firstLine, string secondLine, string thirdLine)
+        {
+            var im = new InputManager();
+            var commands = new List<string> { firstLine, secondLine, thirdLine };
+
+            var returnCode = im.Run(commands);
+
+            Assert.AreEqual(-1, returnCode);
+        }
+
+        [TestCase("5 5", "2 2 N", "FF")]
+        [TestCase("5 5", "0 0 N", "FRF")]
+        [TestCase("5 5", "0 0 E", "FF")]
+        [TestCase("5 5", "2 2 N", "FFRFFRFF")]
+        [TestCase("5 3", "1 1 E", "RFRFRFRF")]
+        public void Run_WhenCoordinatesAreValid_ThenRunMethodReturns0ExitCode(string firstLine, string secondLine, string thirdLine)
+        {
+            var im = new InputManager();
+            var commands = new List<string> { firstLine, secondLine, thirdLine };
+
+            var returnCode = im.Run(commands);
+
+            Assert.AreEqual(0, returnCode);
+        }
+
         [Test]
         public void Run_WhenRobotFindsScentOfLostRobot_ThenItIsPreventedFromMovingForward()
         {

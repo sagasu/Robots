@@ -1,23 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
 namespace Robots
 {
     public class InputManager
     {
-        private readonly IDictionary<string, Expression<Func<RobotStatus>>> _validOperations = new Dictionary
-            <string, Expression<Func<RobotStatus>>>();
-
         private Simulator _simulator;
+        private readonly RobotService _robotService;
 
         public InputManager()
         {
-            // closure on purpose 
-            _validOperations.Add("F", () => _simulator.Forward());
-            _validOperations.Add("L", () => _simulator.Left());
-            _validOperations.Add("R", () => _simulator.Right());
+            _robotService = new RobotService();
         }
 
         public void Run(string path)
@@ -25,7 +19,22 @@ namespace Robots
             Run(new FileHandler().GetAllLines(path));
         }
 
-        public void Run(IList<string> getAllLines)
+        public int Run(IList<string> getAllLines)
+        {
+            try
+            {
+                TryRun(getAllLines);
+            }
+            catch (IllegalInputException e)
+            {
+                Console.WriteLine(e.Message);
+                return -1;
+            }
+            return 0;
+
+        }
+
+        private void TryRun(IList<string> getAllLines)
         {
             var board = BuildBoard(getAllLines.First());
             var isRobotPositionCommand = true;
@@ -34,7 +43,7 @@ namespace Robots
             {
                 if (isRobotPositionCommand)
                 {
-                    var robot = BuildRobot(command);
+                    var robot = _robotService.BuildRobot(command);
                     if (_simulator == null)
                     {
                         _simulator = new Simulator(board, robot);
@@ -43,12 +52,12 @@ namespace Robots
                     {
                         _simulator.SetRobot(robot);
                     }
-                    
+
                     isRobotPositionCommand = false;
                     continue;
                 }
 
-                MoveRobot(command);
+                _robotService.MoveRobot(command, _simulator);
                 isRobotPositionCommand = true;
                 _simulator.ReportToCommandLine();
             }
@@ -58,40 +67,12 @@ namespace Robots
         {
             return _simulator.Report();
         }
-
-        private void MoveRobot(string commands)
-        {
-            foreach (var command in commands)
-            {
-                var robotStatus = _validOperations[command.ToString()].Compile().Invoke();
-                if (robotStatus == RobotStatus.Lost)
-                    return;
-            }
-        }
-
-
-        private Robot BuildRobot(string command)
-        {
-            var robotParameters = command.Split(' ');
-            var positionX = int.Parse(robotParameters[0]);
-            var positionY = int.Parse(robotParameters[1]);
-            var orientation = robotParameters[2];
-
-            var cardinalEngine = Cardinal.GetAllCardinalEngines().FirstOrDefault(carEngine => carEngine.CardinalDirection == orientation);
-
-            if (cardinalEngine == null)
-            {
-                Console.WriteLine("Incorrect robot position command it should have following format: 1 2 N");
-            }
-
-            return new Robot(new Position(positionX, positionY), cardinalEngine);
-        }
-
+        
         private Board BuildBoard(string command)
         {
             var boardParameters = command.Split(' ');
-            var height = int.Parse(boardParameters[1]) + 1;
-            var width = int.Parse(boardParameters[0]) + 1;
+            var height = CoordinatesValidator.Parse(boardParameters[1]) + 1;
+            var width = CoordinatesValidator.Parse(boardParameters[0]) + 1;
 
             return new Board(height, width);
         }

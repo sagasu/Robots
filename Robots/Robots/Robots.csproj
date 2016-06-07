@@ -42,11 +42,15 @@
   <ItemGroup>
     <Compile Include="Board.cs" />
     <Compile Include="CardinalEngine.cs" />
+    <Compile Include="CoordinatesValidator.cs" />
+    <Compile Include="ToyRobots.cs" />
     <Compile Include="FileHandler.cs" />
+    <Compile Include="IllegalInputException.cs" />
     <Compile Include="InputManager.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Robot.cs" />
+    <Compile Include="RobotService.cs" />
     <Compile Include="RobotStatus.cs" />
     <Compile Include="Simulator.cs" />
   </ItemGroup>
