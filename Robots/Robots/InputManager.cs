@@ -7,8 +7,8 @@ namespace Robots
 {
     public class InputManager
     {
-        private readonly IDictionary<string, Expression<Action>> _validOperations = new Dictionary
-            <string, Expression<Action>>();
+        private readonly IDictionary<string, Expression<Func<RobotStatus>>> _validOperations = new Dictionary
+            <string, Expression<Func<RobotStatus>>>();
 
         private Simulator _simulator;
 
@@ -62,7 +62,9 @@ namespace Robots
         {
             foreach (var command in commands)
             {
-                _validOperations[command.ToString()].Compile().Invoke();
+                var robotStatus = _validOperations[command.ToString()].Compile().Invoke();
+                if (robotStatus == RobotStatus.Lost)
+                    return;
             }
         }
 

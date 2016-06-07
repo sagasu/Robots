@@ -26,18 +26,22 @@ namespace Robots
                 _robot.Forward();
                 return RobotStatus.Alive;
             }
-            
+
+            _robot.Forward();
+            _robot.IsLost = true;
             return RobotStatus.Lost;
         }
 
-        public void Left()
+        public RobotStatus Left()
         {
             _robot.TurnLeft();
+            return RobotStatus.Alive;
         }
 
-        public void Right()
+        public RobotStatus Right()
         {
             _robot.TurnRight();
+            return RobotStatus.Alive;
         }
 
         public void SetRobot(Robot robot)

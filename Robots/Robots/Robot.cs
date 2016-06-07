@@ -4,6 +4,7 @@
     {
         public Position Position { get; set; }
         public ICardinalEngine CardinalEngine { get; set; }
+        public bool IsLost { get; set; }
 
         public Robot(ICardinalEngine cardinalEngine)
         {
@@ -39,7 +40,8 @@
 
         public override string ToString()
         {
-            return $"{Position.X} {Position.Y} {CardinalEngine.CardinalDirection}";
+            var isLostAdditionalInfo = IsLost ? " LOST" : string.Empty;
+            return $"{Position.X} {Position.Y} {CardinalEngine.CardinalDirection}{isLostAdditionalInfo}";
         }
     }
 }
