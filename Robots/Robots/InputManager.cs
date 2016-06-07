@@ -49,7 +49,8 @@ namespace Robots
                 }
 
                 MoveRobot(command);
-
+                isRobotPositionCommand = true;
+                _simulator.ReportToCommandLine();
             }
         }
 
@@ -89,8 +90,8 @@ namespace Robots
         private Board BuildBoard(string command)
         {
             var boardParameters = command.Split(' ');
-            var height = int.Parse(boardParameters[1]);
-            var width = int.Parse(boardParameters[0]);
+            var height = int.Parse(boardParameters[1]) + 1;
+            var width = int.Parse(boardParameters[0]) + 1;
 
             return new Board(height, width);
         }

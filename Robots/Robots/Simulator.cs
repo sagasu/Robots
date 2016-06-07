@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Robots
 {
@@ -9,8 +12,10 @@ namespace Robots
     {
         private readonly Board _board;
 
-        private Robot _robot;
+        private readonly IList<string> _scent = new List<string>();
 
+        private Robot _robot;
+        
         public Simulator(int boardWidth, int boardHeight, Robot robot) : this(new Board(boardHeight, boardWidth), robot) { }
 
         public Simulator(Board board, Robot robot)
@@ -27,7 +32,10 @@ namespace Robots
                 return RobotStatus.Alive;
             }
 
-            _robot.Forward();
+            if (_scent.Any(_ => _ == Report()))
+                return RobotStatus.Alive;
+            
+            _scent.Add(Report());
             _robot.IsLost = true;
             return RobotStatus.Lost;
         }
@@ -49,11 +57,14 @@ namespace Robots
             _robot = robot;
         }
 
+        public void ReportToCommandLine()
+        {
+            Console.WriteLine(_robot.ToString());
+        }
+
         public string Report()
         {
-            var positionReport = _robot.ToString();
-            Console.WriteLine(positionReport);
-            return positionReport;
+            return _robot.ToString();
         }
     }
 }

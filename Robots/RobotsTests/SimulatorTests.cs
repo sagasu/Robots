@@ -70,5 +70,30 @@ namespace RobotsTests
 
             Assert.AreEqual("0 0 E", simulator.Report());
         }
+
+        [Test]
+        public void Forward_WhenSecondRobotFindsScentOfLostRobot_ThenItIsPreventedToBeLostInThisSamePlace()
+        {
+            var simulator = new Simulator(2, 2, new Robot(new NorthEngine()));
+
+            simulator.Forward();
+            simulator.Forward(); // first robot is lost with this command
+            simulator.SetRobot(new Robot(new NorthEngine()));
+            simulator.Forward();
+            simulator.Forward(); // second robot is prevented
+            
+            Assert.AreEqual("0 1 N", simulator.Report());
+        }
+
+        [Test]
+        public void Forward_WhenRobotMovesOutisdeOfBoard_ThenItIsLost()
+        {
+            var simulator = new Simulator(2, 2, new Robot(new NorthEngine()));
+
+            simulator.Forward();
+            simulator.Forward();
+            
+            Assert.AreEqual("0 1 N LOST", simulator.Report());
+        }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using NUnit.Framework;
 using Robots;
 
@@ -34,6 +36,32 @@ namespace RobotsTests
             im.Run(commands);
 
             Assert.AreEqual(expectedPosition, im.Report());
+        }
+
+        [Test]
+        public void Run_WhenRobotFindsScentOfLostRobot_ThenItIsPreventedFromMovingForward()
+        {
+            var im = new InputManager();
+            var commands = new List<string> { "5 3", "3 2 N", "FRRFLLFFRRFLL", "3 2 N", "FRRFLLFFRRFLL" };
+
+            im.Run(commands);
+
+            Assert.AreEqual("3 2 N", im.Report());
+        }
+
+        [Test]
+        public void Run_WhenFileIsUsedToControlThreeRobots_ThenPositionOfRobotsIsPritedCorrectly()
+        {
+            var im = new InputManager();
+
+            im.Run($"{GetCurrentDirectoryPath()}/threeRobots.txt");
+
+            Assert.AreEqual("2 3 S", im.Report());
+        }
+
+        private static string GetCurrentDirectoryPath()
+        {
+            return Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:\", string.Empty);
         }
     }
 }
