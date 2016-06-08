@@ -19,3 +19,6 @@ I didn't spend too much time validating the input. I guessed that it is not a ma
 
 # Tests
 I really like to follow way of writing tests suggested by Roy Osherove - method naming conventions, test implementation according to assign act assert (3A). Not testing internal classes, and focusing on logic and not data that is kept by a class. I didn't spend time trying to test the main method - again usually you don't do it and it is not a goal of this exercise.
+
+# Where to start looking at code
+I suggest starting from Robots.InputManager.Start(path). Start method is called from exe file and takes as a parameter a file to parse.
